@@ -115,8 +115,8 @@ Notes :
 
 ## 02. Ambiance autour du stade
 
-Lors de la semaine de célébration des Carabins, le service des sports souhaite illustrer l'ambiance autour du stade avec un diagramme similaire à celui-ci : 
-![alt text](image.png)
+Lors de la semaine de célébration des Carabins, le service des sports souhaite illustrer l'ambiance autour du stade avec un diagramme similaire à celui-ci :
+![Ambiance autour du stade](https://t4.ftcdn.net/jpg/03/33/23/41/360_F_333234186_rWQQpvHnOnia4l9RIYHQ3UsK5GeHAEOr.jpg)
 
 où les lignes verticales représentent le niveau d'intensité de l'ambiance et chaque colonne représente une section du stade.
 
