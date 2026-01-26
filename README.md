@@ -1,273 +1,374 @@
-# TP1 : Exercices d’introduction à Python
+# TP1 : Exercices d'introduction a Python
 
-📅 **Date de remise : 21 Septembre à 23:59**
+:alarm_clock: Date de remise : **Le 8 février à 23:59**
 
-Bienvenue dans cette série de cinq exercices Python pour votre TP1! Vous trouverez ci-dessous la description de chaque exercice. 
+:mailbox_with_mail: **À remettre sur GitHub Classroom** (vous devez utiliser les commandes git vues au TP0)
 
-⚠️ Assurez-vous de respecter exactement les formats d’entrée et de sortie demandés (y compris l’orthographe, la ponctuation et les espaces), car un script de tests automatisés va aider à valider vos solutions.
+## Introduction
 
-⚠️ Chaque exercice est un problème **Indépendant** et le niveau de difficulté est progressif, avec seulement une légère augmentation de la complexité d’un exercice à l’autre.
+Bienvenue dans cette série de cinq exercices pour votre TP1!
 
-⚠️ L'utilisation de tout outil basé sur l'Intelligence Artificielle est interdite!
+Lors de ces exercices, vous allez devoir écrire des programmes qui permettront d'interagir avec l'utilisateur en lisant des données entrées au clavier. 
 
-## Exercices:
+En Python, cela se fait à l'aide de la fonction `input()`.
 
-Le réseau de transport de montréal (STM), tout comme d'habitude, cherche à améliorer son réseau et demande votre aide pour accomplir cette tâche.  Ces exercices vous permettront de pratiquer les bases de la programmation Python : **entrées/sorties, opérations mathématiques simples, conditions et formatage de texte**.
+### Lire une donnée
 
-## 01. Usage hebdomadaire du métro
-Écrivez un programme qui salue l’utilisateur et estime sa fréquence annuelle de déplacements en transport en commun. Le programme devra demander le nom complet de l’utilisateur, puis le nombre de déplacements qu’il effectue en moyenne chaque semaine sur le réseau de la STM. Il affichera ensuite un message de bienvenue personnalisé suivi d’une estimation du nombre de déplacements annuels correspondants (en supposant 52 semaines dans l’année). 
+La fonction `input()` permet de lire ce que l'utilisateur écrit au clavier. 
 
-Exemple :
-
-Entrées (utilisateur) :
+Par exemple:
 
 ```python
-Veuillez entrer votre nom complet :
-Veuillez entrer le nombre de déplacements par semaine :
+nom = input("Entrez votre nom: ")
 ```
+La valeur retournée par `input()` est toujours une chaîne de caractères (texte), même si l'utilisateur entre un nombre. 
 
-Sorties (programme) :
-```python
-Bonjour Jean Dupont
-Vous effectuez environ 520 déplacements par an sur le réseau STM.
-```
- 
-Explication : Dans cet exemple, l’utilisateur a indiqué effectuer 10 trajets par semaine. Le programme calcule alors 10 × 52 = 520 déplacements par an et affiche le message avec cette valeur.
+### Convertir une donnée
 
-NB : Vous devez convertir le nombre de déplacements par semaine en entier avant de faire vos opérations. 
+Pour effectuer des calculs, il est souvent nécessaire de convertir la chaîne de caractères entrée par l'utilisateur en un nombre.
 
-## 02. Taux d’occupation d’un bus
-
-Dans cet exercice, vous écrivez un programme de surveillance du taux d’occupation d’un bus de la STM. 
-
-Le programme demande à l’utilisateur le **pourcentage** de remplissage actuel du bus (une valeur de 0 à 100). S’il s’agit d’une valeur valide (dans l’intervalle [0, 100]), le programme affiche une barre de progression visuelle du taux d’occupation ainsi que le pourcentage saisi. La barre de progression est composée de 10 caractères, où chaque bloc ❚ représente 10% d’occupation. Le nombre de blocs affichés doit refléter le pourcentage le plus proche (arrondi à la dizaine près). Les positions non occupées de la barre seront laissées vides (espaces). En cas de pourcentage invalide (nombre négatif ou supérieur à 100), le programme affiche un message d’erreur approprié. 
-
-Exemples :
-
-Entrée (utilisateur) :
+Par exemple:
 
 ```python
-Entrez le taux d'occupation d'un bus (en %): 0
+age = int(input()) # Pour convertir en nombre entier
+distance = float(input()) # avec décimales
 ```
 
-Sorties (programme) :
+Dans cet exemple, si l'utilisateur entre une valeur invalide (c'est-à-dire du texte au lieu d'un nombre), Python génère une **erreur**, ce qu'on ne veut pas. 
+
+### Gérer les erreurs avec `try/except`
+
+Afin d'éviter que le programme s'arrête en cas d'erreur, on peut utiliser des blocs `try/except`. 
+
+Par exemple:
 
 ```python
-[          ]  
-0%
+try:
+    age = int(input())
+except ValueError:
+    print("Erreur - donnees invalides.")
 ```
 
-Entrée (utilisateur) : 
-```python
-Entrez le taux d'occupation d'un bus (en %): 12
-```
-Sorties :
-```python
-[❚         ]  
-12%  
-```
+Dans cet exemple:
+- Si l’utilisateur entre un nombre valide, la conversion fonctionne normalement
+- Si l’utilisateur entre une valeur qui ne peut pas être convertie en entier, une erreur (`ValueError`) se produit
+- Le programme affiche alors le message d’erreur au lieu de s’arrêter brutalement.
 
-Entrée (utilisateur) : 
-```python
-Entrez le taux d'occupation d'un bus (en %): 68
-```
+Dans ce TP, **toutes les entrées doivent être validées à l'aide de blocs `try/except`**. 
 
-Sorties :
-```python
-[❚❚❚❚❚❚❚   ]  
-68%
-```
+### Gestion de contraintes d'entrée
 
-Entrée (utilisateur) : 
-```python
-Entrez le taux d'occupation d'un bus (en %): 304
-```
-Sortie :
-```python
-Taux d'occupation invalide.  
-```
+On peut également vouloir imposer d'autres contraintes d'entrée de données à l'utilisateur (ex: doit être un nombre positif, ne peut pas être égal à zéro, etc.). Ces contraintes peuvent être vérifiées après la conversion. 
 
-N.B. : Pour construire facilement la barre d’occupation, vous pouvez utiliser l’opérateur de multiplication sur les chaînes de caractères en Python. Par exemple, '❚' * 3 produit ❚❚❚.
-
-## 03. Marcher ou attendre le bus ?
-
-Montréal est une ville où l’on peut parfois choisir entre marcher ou prendre le bus pour de courts trajets. Écrivez un programme qui aide à décider le moyen le plus rapide pour se rendre à destination.
-
-Le programme demande à l’utilisateur la distance jusqu’à la destination (en kilomètres), puis le temps d’attente estimé avant le prochain bus (en minutes). En considérant qu’un piéton marche à une vitesse moyenne de 5 km/h et qu’un bus se déplace à une vitesse moyenne de 20 km/h, le programme calcule le temps de trajet en marchant et le temps de trajet en bus (incluant l’attente). Il compare ensuite ces durées et affiche un conseil sur le moyen de transport le plus rapide.
-
-Si marcher est plus rapide, affichez : « Il est plus rapide de marcher. »
-
-Si prendre le bus est plus rapide, affichez : « Il est plus rapide de prendre le bus. »
-
-Si les deux options prennent exactement le même temps, affichez : « Les deux options prennent le même temps. »
-
-Types : distance float (km), attente entier (min) — à préciser.
-
-Exemples :
-
-Pour une distance de 0,5 km et une attente de 10 minutes, marcher prendra environ 6 minutes et le bus environ 11,5 minutes : le programme affichera « Il est plus rapide de marcher. ».
-
-Pour une distance de 5 km sans aucune attente de bus, marcher prend ~60 min contre ~15 min en bus : le programme affichera « Il est plus rapide de prendre le bus. ».
-
-Pour une distance de 1 km avec 9 minutes d’attente, marcher et prendre le bus prennent chacun ~12 minutes : le programme affichera « Les deux options prennent le même temps. ».
-
-## 04. Hauteur atteinte par un escalier mécanique
-Les stations de métro de Montréal sont équipées d’escaliers mécaniques pour faciliter l’accès. Dans cet exercice, vous devez calculer la hauteur verticale atteinte par un escalier mécanique en fonction de sa longueur et de son inclinaison. Le programme demande à l’utilisateur la longueur de l’escalier (en mètres) et l’angle de l’escalier par rapport à l’horizontale (en degrés). Il calcule ensuite la hauteur verticale correspondante en utilisant la formule : 
-
-$$
-𝐻 = 𝐿 × sin(𝜃)
-$$
-
-où L est la longueur de l’escalier et $\theta$ l’angle en degrés. La hauteur H est exprimée en mètres. Le programme affichera la hauteur calculée, arrondie à deux décimales.
-
-Note : En Python, la fonction math.sin() attend un angle en radians. Vous devrez donc convertir l’angle fourni en degrés vers des radians avant le calcul. (Indice : consultez la fonction math.radians ou rappelez-vous que $\pi$ radians = 180°.)
-
-NB : N'ouvbliez pas la validation d'entrées! (Message : Erreur : données invalides.)
-
-Exemples :
-
-Un escalier de 10 m avec un angle de 30° atteindra une hauteur d’environ 5,00 m.
-
-Un escalier de 10 m avec un angle de 90° (vertical) permettra de monter d’environ 10,00 m (soit la longueur de l’escalier).
-
-Un escalier de 5 m avec un angle de 0° (parfaitement horizontal) ne monte pas : hauteur de 0,00 m.
-
-## 05. Répartition optimale des titres
-
-La STM vend des titres de transport (valables par utilisation) :
-
-- **Carnet 30 billets** → couvre **30 trajets** → **75.00 $** (soit **2.50 $** par trajet)  
-- **Carnet de 10 billets** → couvre **10 trajets** → **30.00 $** (soit **3.00 $** par trajet)  
-- **Billet simple** → couvre **1 trajet** → **3.75 $** (soit **3.75 $** par trajet)
-
-> Le prix par trajet **diminue** avec la taille du titre : 30 > 10 > 1.  
-> Votre programme doit calculer la **combinaison la moins chère** pour un nombre de trajets donné.
-
-### Consignes
-1. Demandez à l’utilisateur :
+Par exemple: 
 
 ```python
-Entrez le nombre total de trajets à effectuer :
-```
-
-2. Calculez une combinaison qui **couvre exactement tous les trajets**.  
-  
-3. Affichez **exactement** les quatre lignes suivantes :
-
-```python
-Carnets de 30 billets : X
-Carnets de 10 billets : Y
-Billets simples : Z
-Prix total : TTT.TT$
-```
-
-où `TTT.TT` est le coût total **formaté avec 2 décimales**.
-
-### Exemple
-
-Entrée :
-
-```python
-Entrez le nombre total de trajets à effectuer : 89
-```
-
-Sortie attendue :
+if age < 0:
+    print("Erreur - donnees invalides.")
 
 ```
-Carnets de 30 billets : 2
-Carnets de 10 billets : 2
-Billets simples : 9
-Prix total : 243.75$
+
+**Consignes générales :**
+- Respectez **exactement** les formats d'entrée et de sortie demandées (majuscule/minuscule, orthographe, ponctuation, espaces, etc.)
+- Aucune erreur Python ne doit apparaître à l’écran lors de l’exécution. Toute entrée invalide (type incorrect ou valeur hors contraintes) doit être gérée à l’aide de blocs `try / except`, comme présenté ci-dessus, et mener à l’affichage du message d’erreur demandé.
+- Chaque exercice est indépendant
+- Le niveau de difficulté est progressif
+
+## Exercices
+
+L'automne dernier, l'équipe de football masculin des Carabins a remporté le championnat universitaire canadien et a ramené le trophée de la Coupe Vanier à Montréal pour la troisième fois de son histoire. De plus, l'équipe de soccer féminin des Carabins a décroché un troisième titre national et a obtenu le trophée Gladys-Bean. Dans le cadre d'une semaine de célébration, le service des sports des Carabins souhaite automatiser quelques calculs liés aux statistiques de participation, à l'estimation de temps de trajet, à l'accessibilité et à la planification de billets. Ces exercices vous permettront de pratiquer les entrées/sorties, les opérations mathématiques, les conditions, les arrondis, le formatage et de petites boucles de recherche.
+
+## 01. Bilan de visionnage Carabins
+
+Écrivez un programme qui salue l'utilisateur puis calcule son temps total de visionnage des matchs des Carabins.
+
+**Le programme doit demander à l'utilisateur :**
+1) Son nom complet
+2) Le nombre de matchs de football visionnés (entier)
+3) La durée moyenne par match de football (en minutes, entier)
+4) Le nombre de matchs de soccer visionnés (entier)
+5) La durée moyenne par match de soccer (en minutes, entier)
+
+**Contraintes de validation des entrées:**
+- Tous les nombres doivent être des entiers
+- Nombre de matchs >= 0
+- Durée moyenne > 0
+
+En cas d'erreur, afficher exactement :
+
+```text
+Erreur - donnees invalides.
 ```
 
-**Détails de calcul :**  
-- 2 × (30 trajets) = 60 trajets → reste 29  
-- 2 × (10 trajets) = 20 trajets → reste 9 
-- 9 × (1 trajet) = 9 trajets → reste 0  
-- Coût : 2×75.00 + 2×30.00 + 9×3.75 = **243.75$**
+Sinon, afficher exactement 4 lignes (formatage obligatoire) :
 
-
-> 🎯 Question bonus : Si une sur-couverture (acheter plus de trajets que nécessaire) donne un coût total plus bas, afficher en plus une ligne :
-
- ```
-Il existe une combinaison sur-couvrante moins chère : A, B, C : PPP.PP$ (surplus : S trajet(s))
+```text
+Bonjour NOM
+Football (Carabins): A match(s), HhMM de visionnage
+Soccer (Carabins): B match(s), HhMM de visionnage
+Total: HhMM
 ```
 
-Exemple pour 89 trajets : acheter 3 carnets de 30 (90 trajets) coûte 225.00$, ce qui est moins cher que 243.75$ (exact).
-Ligne bonus :
+Notes :
+- Convertissez correctement les minutes en heures et minutes.
+- Les minutes doivent être affichées sur 2 chiffres (ex: 11h00, 1h05).
+
+## 02. Ambiance autour du stade
+
+Lors de la semaine de célébration des Carabins, le service des sports souhaite illustrer l'ambiance autour du stade avec un diagramme similaire à celui-ci : 
+![alt text](image.png)
+
+où les lignes verticales représentent le niveau d'intensité de l'ambiance et chaque colonne représente une section du stade.
+
+La zone autour du stade des Carabins est divisée en 8 sections, nommées A, B, C, D, E, F, G et H.
+
+Vous devez lire le nombre de personnes présentes dans les 8 sections autour du stade,
+calculer un niveau d’ambiance pour chaque section, puis afficher ces niveaux sous forme de grille verticale.
+
+### Entrées
+
+Votre programme doit lire **8 nombres entiers**, un par ligne, correspondant au nombre
+de personnes dans les sections **A à H**, dans cet ordre.
+
+Contraintes :
+- chaque valeur doit être un entier
+- chaque valeur doit être ≥ 0
+
+En cas d’entrée invalide (non entier ou valeur négative), afficher exactement :
+```
+Erreur - donnees invalides.
+```
+
+### Intensité brute de chaque section
+
+À chaque section est associé un facteur d’ambiance. Voici les valeurs que vous devez utiliser pour chaque section: 
+
+| Section | A    | B    | C    | D    | E    | F    | G    | H    |
+| ------- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- |
+| Facteur | 1.30 | 1.15 | 1.05 | 0.95 | 0.95 | 1.05 | 1.15 | 1.30 |
+
+Pour chaque section, calculez l’intensité brute :
+```
+intensité = nombre de personnes × facteur
+```
+
+### Normalisation des intensités
+
+Les intensités doivent être converties en niveaux de 0 à 10.
+
+Soit maxI la plus grande intensité brute:
+
+- Si maxI == 0, alors tous les niveaux valent 0
+- Sinon :
+```
+niveau = int((intensite / maxI) * 10 + 0.5)
+```
+
+L’ajout de `+ 0.5` avant la conversion avec `int()` sert à arrondir la décimale à l'entier le plus proche (par exemple, 3.2 est arrondi à 3, 3.7 est arrondi à 4, 3.5 est arrondi à 4).
+
+Le niveau final doit être compris entre 0 et 10.
+
+**Affichage:**
+
+Vous devez afficher une grille verticale selon les directives suivantes :
+- Lignes : Les niveaux d'intensité (de 10 à 1)
+- Colonnes : sections A à H
+- Afficher `❚` si le niveau d'intensité de la section est ≥ niveau de la ligne
+- Sinon, afficher `.`
+- La première colonne affiche les niveaux d'intensité (10 à 1), suivi d'un espace et d'une ligne verticale | 
+- La dernière ligne affiche les labels des sections (A à H)
+- Les cellules sont séparées par un espace
+
+Exemple de format exact : 
+```
+10 | ❚ ❚ . . . . ❚ ❚
+ 9 | ❚ ❚ . . . . ❚ ❚
+ 8 | ❚ ❚ ❚ . . ❚ ❚ ❚
+ 7 | ❚ ❚ ❚ . . ❚ ❚ ❚
+ 6 | ❚ ❚ ❚ ❚ ❚ ❚ ❚ ❚
+ 5 | ❚ ❚ ❚ ❚ ❚ ❚ ❚ ❚
+ 4 | ❚ ❚ ❚ ❚ ❚ ❚ ❚ ❚
+ 3 | ❚ ❚ ❚ ❚ ❚ ❚ ❚ ❚
+ 2 | ❚ ❚ ❚ ❚ ❚ ❚ ❚ ❚
+ 1 | ❚ ❚ ❚ ❚ ❚ ❚ ❚ ❚
+     A B C D E F G H
+```
+
+## 03. Choisir le meilleur trajet vers le CEPSUM
+
+Écrivez un programme qui compare trois options pour arriver au CEPSUM (marche, navette, métro), en incluant un temps de contrôle à l'entrée du CEPSUM pour la vérification des billets. 
+
+**Le programme doit prendre en entrée :**
+- Distance jusqu'au CEPSUM (km, float)
+- Temps d'attente de la navette (minutes, float)
+- Temps du trajet en métro (minutes, float)
+- Temps de contrôle a l'entrée du CEPSUM (minutes, float)
+
+**Hypothèses :**
+- vitesse de marche = 5 km/h
+- vitesse de navette = 18 km/h
+
+**Calculs (en minutes) :**
+- `marche = distance * 60 / 5 + controle`
+- `navette = attente + distance * 60 / 18 + controle`
+- `metro = metro + controle`
+
+Pour la comparaison, vous devez arrondir chaque temps à la minute supérieure (ceil).
+
+**En sortie, le programme doit faire les affichages suivants:**
+
+- Si une seule option est la plus rapide:
 
 ```
-Il existe une combinaison sur-couvrante moins chère : A, B, C : PPP.PP$ (surplus : S trajet(s))
+Option la plus rapide : X.
+```
+
+où X est l'option la plus rapide (`marcher`, `navette` ou `metro`)
+
+- Si 2 options sont ex-aequo et minimales :
+
+```
+Egalite : X et Y.
+```
+où X et Y sont les deux options les plus rapides, avec l'ordre d'affichage suivant : marcher, navette, metro
+
+- Si 3 options sont ex-aequo :
+
+```
+Egalite : marcher, navette et metro.
+```
+
+- En cas de données invalides (valeurs négatives), afficher exactement :
+
+```text
+Erreur - donnees invalides.
+```
+
+## 04. Vérification d'une rampe d'accessibilité
+
+Écrivez un programme qui calcule la pente (%) et l'angle (degrés) d'une rampe, puis verifie si elle respecte une pente maximale de 8%.
+
+**Entrées :**
+- Hauteur à franchir (en centimetres, float)
+- Longueur horizontale (en metres, float)
+
+**Contraintes à respecter:**
+- Hauteur >= 0
+- Longueur > 0
+
+En cas de données invalides, afficher :
+
+```text
+Erreur - donnees invalides.
+```
+
+**Calculs :**
+- `hauteur_m = hauteur_cm / 100`
+- `pente (%) = (hauteur_m / longueur_m) * 100`
+- `angle (deg) = atan(hauteur_m / longueur_m)`, converti en degrés
+
+**Sortie**
+
+L'affichage en sortie doit suivre le format suivant:
+
+```text
+Pente: PP.PP%
+Angle: AA.AA deg
+Conforme: OUI|NON
+```
+
+Si la rampe ne respecte PAS une pente maximale de 8%, affichez une 4e ligne : 
+
+```text
+Depassement: DD.DD%
+```
+
+## 05. Planification d'achat de billets
+
+Écrivez un programme qui choisit la combinaison la moins dispendieuse pour acheter au moins `n` billets pour les événements des Carabins.
+
+**Les options pour acheter des billets sont les suivantes:**
+- Forfait de 24 billets : 66.00$
+- Forfait de 12 billets : 36.00$
+- Forfait de 5 billets  : 15.75$
+- Billet unitaire       :  3.60$
+
+**Rabais étudiant :**
+- Si statut etudiant = 0, appliquer 12% de réduction sur les forfaits uniquement
+- Les billets unitaires ne sont jamais réduits
+
+**Objectifs :**
+- Couvrir au moins `n` billets
+- Minimiser le coût total
+- En cas d'égalité sur le coût : choisir la solution avec le plus petit nombre de billets total (surplus minimal), puis le plus petit nombre de billets unitaires
+
+En cas de données invalides :
+
+```text
+Erreur - donnees invalides.
+```
+
+Sinon, afficher exactement 6 lignes :
+
+```text
+Forfaits de 24 billets - A
+Forfaits de 12 billets - B
+Forfaits de 5 billets - C
+Billets unitaires - D
+Total billets - T
+Prix total - PPP.PP$
 ```
 
 ## Fichiers du projet
-- README.md – le fichier que vous lisez actuellement, contenant les consignes et informations générales.
-- exo1.py – exercice 01
-- exo2.py – exercice 02
-- exo3.py – exercice 03
-- exo4.py – exercice 04
-- exo5.py – exercice 05
-- test.py – script de tests automatisés pour valider vos solutions (simule des entrées utilisateur et compare les sorties du programme aux résultats attendus). Veillez à créer chacun des fichiers exo1.py à exo5.py et à y écrire votre code conformément aux consignes ci-dessus. Une fois terminé, vous pouvez exécuter test.py pour vérifier automatiquement la conformité de vos programmes.
 
+- README.md : consignes et informations générales
+- `exo1.py` : exercice 01
+- `exo2.py` : exercice 02
+- `exo3.py` : exercice 03
+- `exo4.py` : exercice 04
+- `exo5.py` : exercice 05
+- `test.py` : script de tests automatisés
 
-# Directives pour la remise
+**Vous devez compléter les exercices à l'intérieur des fichiers `exo1.py` à `exo5.py`.**
 
-Pour remettre votre travail, vous devez créer un fichier **zip** nommé : LXX-XX_TP1.zip
+**Vous pouvez exécuter le fichier `test.py` pour vérifier vos réponses.**
 
-où **XX-XX** est le numero de votre groupe.  
+## Directives pour la remise
 
-Ce fichier zip devra contenir **tous les fichiers `.py` du TP** (`exo1.py` à `exo5.py`).  
+Vous devez remettre votre travail avant 23:59 le 8 février.
 
-➡️ Votre fichier zip est à remettre dans la boîte de remise sur **Moodle** prévue à cet effet, **le 21 Septembre à 23:59**.
+Votre travail doit être remis en utilisant les commandes git vues au TP0, sur votre répertoire GitHub créé avec GitHub Classroom. Nous corrigerons votre dernier commit avant la date limite. 
 
-# Barème de correction
+## Barème de correction
 
-Le barème de correction est le suivant :  
-
-| Partie | Tâche | Points |
-|--------|-------|--------|
-| **Exercice 1 : Usage hebdomadaire du métro 🚇** | | **/3** |
-| 1.1 | Lecture du nom complet (avec `input`) | 0.5 |
-| 1.2 | Lecture du nombre de déplacements par semaine (cast en entier) | 0.5 |
-| 1.3 | Calcul correct du nombre annuel (`52 * déplacements`) | 1 |
-| 1.4 | Affichage correct du message de bienvenue avec le nom | 0.5 |
-| 1.5 | Affichage correct de la phrase complète avec le nombre annuel | 0.5 |
-| **Exercice 2 : Taux d’occupation d’un bus 🚌** | | **/4** |
-| 2.1 | Lecture du pourcentage avec `input` | 0.5 |
-| 2.2 | Vérification validité de l’entrée (0 ≤ taux ≤ 100) | 0.5 |
-| 2.3 | Construction correcte de la barre avec ❚ et espaces | 1 |
-| 2.4 | Arrondi du nombre de blocs à la dizaine près | 0.5 |
-| 2.5 | Affichage de la barre + du pourcentage | 0.5 |
-| 2.6 | Gestion de l’erreur « Taux d'occupation invalide. » | 1 |
-| **Exercice 3 : Marcher ou attendre le bus ? 🚶‍♂️🚌** | | **/4** |
-| 3.1 | Lecture de la distance (float) et du temps d’attente (int) | 0.5 |
-| 3.2 | Calcul du temps de marche (vitesse 5 km/h) | 0.5 |
-| 3.3 | Calcul du temps de bus (20 km/h + attente) | 0.5 |
-| 3.4 | Comparaison correcte des durées | 1 |
-| 3.5 | Affichage du bon message (« marcher », « bus », ou égalité) | 1.5 |
-| **Exercice 4 : Hauteur atteinte par un escalier mécanique 🏗️** | | **/4** |
-| 4.1 | Lecture de la longueur (float) et de l’angle (float) | 0.5 |
-| 4.2 | Conversion de l’angle en radians (via `math.radians`) | 0.5 |
-| 4.3 | Application correcte de la formule H = L × sin(θ) | 1 |
-| 4.4 | Résultat arrondi à 2 décimales | 0.5 |
-| 4.5 | Affichage correct (avec « m » à la fin) | 0.5 |
-| 4.6 | Gestion des entrées invalides (affichage du message d’erreur) | 1 |
-| **Exercice 5 : Répartition optimale des titres 🎟️** | | **/5** |
-| 5.1 | Lecture du nombre de trajets (int) | 0.5 |
-| 5.2 | Calcul correct du nombre de carnets de 30 | 1 |
-| 5.3 | Calcul correct du nombre de carnets de 10 | 1 |
-| 5.4 | Calcul correct des billets simples | 0.5 |
-| 5.5 | Calcul du prix total avec formatage à 2 décimales | 1 |
-| 5.6 | Affichage correct des 4 lignes demandées (ordre exact) | 1 |
-| **Total** |  | **/20** |
-
----
-
-🎯 **Question bonus** :  
-- Vérification d’une combinaison sur-couvrante moins chère  
-- Affichage du message additionnel avec le surplus de trajets  
-*(+1 pt bonus)*  
-
----
-
-Bonne programmation !
+| Exercice                                                   | Critère       | Description                                        | Points   |
+| ---------------------------------------------------------- | ------------- | -------------------------------------------------- | -------- |
+| **Exercice 1 – Bilan de visionnage Carabins**              |               |                                                    | **/3.5** |
+| 1.1                                                        | Entrées       | Lecture du nom et des 4 valeurs numériques         | 0.5      |
+| 1.2                                                        | Validation    | Validation des données et message d’erreur exact   | 1.0      |
+| 1.3                                                        | Calculs       | Calcul correct des durées football et soccer       | 0.75     |
+| 1.4                                                        | Formatage     | Conversion minutes → HhMM (minutes sur 2 chiffres) | 0.75     |
+| 1.5                                                        | Sortie        | Affichage exact des 4 lignes demandées             | 0.5      |
+| **Exercice 2 – Ambiance autour du stade**                  |               |                                                    | **/5.0** |
+| 2.1                                                        | Entrées       | Lecture et validation des 8 sections (entiers ≥ 0) | 1.0      |
+| 2.2                                                        | Calculs       | Calcul des intensités brutes avec facteurs         | 0.75     |
+| 2.3                                                        | Normalisation | Gestion de maxI et du cas maxI = 0                 | 0.75     |
+| 2.4                                                        | Arrondi       | Arrondi half-up et bornage des niveaux (0–10)      | 1.0      |
+| 2.5                                                        | Affichage     | Grille correcte (symboles, alignement, labels)     | 1.5      |
+| **Exercice 3 – Choisir le meilleur trajet vers le CEPSUM** |               |                                                    | **/3.5** |
+| 3.1                                                        | Entrées       | Lecture et validation des 4 entrées (floats ≥ 0)   | 1.0      |
+| 3.2                                                        | Calculs       | Calcul correct des temps (marche, navette, métro)  | 1.0      |
+| 3.3                                                        | Arrondi       | Application correcte du `ceil`                     | 0.5      |
+| 3.4                                                        | Décision      | Comparaison correcte et gestion des égalités       | 1.0      |
+| **Exercice 4 – Vérification d’une rampe d’accessibilité**  |               |                                                    | **/3.5** |
+| 4.1                                                        | Entrées       | Lecture et validation des données                  | 0.75     |
+| 4.2                                                        | Calculs       | Calcul correct de la pente (%)                     | 0.75     |
+| 4.3                                                        | Calculs       | Calcul correct de l’angle (degrés)                 | 0.75     |
+| 4.4                                                        | Sortie        | Affichage exact et dépassement si non conforme     | 1.25     |
+| **Exercice 5 – Planification d’achat de billets**          |               |                                                    | **/4.5** |
+| 5.1                                                        | Entrées       | Lecture et validation de `n` et du statut étudiant | 1.0      |
+| 5.2                                                        | Tarification  | Application correcte des prix et réductions        | 1.0      |
+| 5.3                                                        | Couverture    | Combinaison couvrant au moins `n` billets          | 1.0      |
+| 5.4                                                        | Optimisation  | Prix minimal, surplus minimal, billets unitaires   | 1.0      |
+| 5.5                                                        | Sortie        | Affichage exact des 6 lignes demandées             | 0.5      |
+| **Total**                                                  |               |                                                    | **/20**  |
